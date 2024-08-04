@@ -34,7 +34,7 @@ for iteration in range(0,n):
     X[s]=x[s]
     pinv=np.linalg.pinv(X)
     h=np.dot(pinv,y.T)
-    y_tilda=np.matmul(X,h)
+    y_tilda=np.dot(X,h)
     r=y-np.transpose(y_tilda)
     print(np.linalg.norm(r))
     
