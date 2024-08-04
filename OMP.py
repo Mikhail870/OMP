@@ -5,8 +5,8 @@ import scipy as sp
 x = sp.io.loadmat(r'', appendmat = True)['G_train']
 y= sp.io.loadmat(r'', appendmat = True)['data_output_train']
 
-x = np.matrix(x, dtype = Complex128)
-y = np.matrix(y, dtype = Complex128)
+x = np.array(x, dtype = Complex128)
+y = np.array(y, dtype = Complex128)
 
 #Find number of max collumn correlation   
 def max_regeressor(a): 
@@ -20,20 +20,20 @@ def max_regeressor(a):
 #inicialization variable and matrix
 m=np.size(x,1)
 n=np.size(x,0)
-r=np.matrix(y,dtype=Complex128)
+r=np.array(y,dtype=Complex128)
 mask=np.zeros((1,n),dtype=int)
-X=np.matrix(np.zeros((n,m),dtype=Complex128))
+X=np.zeros((n,m),dtype=Complex128)
 s=0
 x_col=np.matrix.getH((x[s]))/np.linalg.norm(x[s])
 
 #OMP main algorithm
 for iteration in range(0,n):    
-    g=np.matmul(x_col,r)
+    g=np.dot(np.reshape(x_col,(m,1)),r)
     s=max_regeressor(g)
     mask[0][s]=1
     X[s]=x[s]
     pinv=np.linalg.pinv(X)
-    h=np.matmul(pinv,y.T)
+    h=np.dot(pinv,y.T)
     y_tilda=np.matmul(X,h)
     r=y-np.transpose(y_tilda)
     print(np.linalg.norm(r))
